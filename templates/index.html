@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Image app</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    position: relative;
+    background-image: url('https://i.ibb.co/kJ7z1KG/box.gif');
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(0, 0, 0, 0.2); /* 20% opacity (80% opaque) black background */
+    color: white; /* Set text color to white */
+}
+
+
+        h1 {
+            text-align: center;
+            font-weight: bold; /* Make h1 text bold */
+        }
+
+        #imageForm {
+            text-align: center;
+        }
+
+        #prompt {
+            width: 80%;
+            margin-bottom: 10px;
+            color: black; /* Reset textarea text color to black */
+            background-color: white; /* Reset textarea background color to white */
+        }
+
+        #generateButton {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold; /* Make button text bold */
+        }
+
+        #generateButton:hover {
+            background-color: #45a049;
+        }
+
+        #loadingText {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-weight: bold;
+        }
+
+        #imageContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #developerText {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text to Image</h1>
+    <form id="imageForm" method="post" onsubmit="showLoadingText()">
+        <textarea name="prompt" id="prompt" rows="4" cols="50" placeholder="Enter your prompt here"></textarea>
+        <br>
+        <button type="submit" id="generateButton">Generate Image</button>
+    </form>
+    <div id="loadingText"></div>
+    <div id="imageContainer">
+        {% if image_data %}
+            <img src="data:image/png;base64,{{ image_data }}" alt="Generated Image" onload="clearLoadingText()">
+        {% endif %}
+    </div>
+    <script>
+        function showLoadingText() {
+            var loadingText = document.getElementById('loadingText');
+            loadingText.textContent = 'Loading';
+            setInterval(function() {
+                if (loadingText.textContent.endsWith('...')) {
+                    loadingText.textContent = 'Loading';
+                } else {
+                    loadingText.textContent += '.';
+                }
+            }, 500);
+        }
+
+        function clearLoadingText() {
+            var loadingText = document.getElementById('loadingText');
+            loadingText.textContent = '';
+        }
+    </script>
+    <div id="developerText">Developer - Deepankar Kumar</div>
+</body>
+</html>
